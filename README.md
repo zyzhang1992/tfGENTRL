@@ -15,3 +15,6 @@ To run the training procedure,
 3. Install MOSES from the [repository](https://github.com/molecularsets/moses)
 4. Run the [pretrain.ipynb](./examples/pretrain.ipynb) to train an autoencoder
 5. Run the [train_rl.ipynb](./examples/train_rl.ipynb) to optimize a reward function
+
+# tfGENTRL
+implementation of GENTRL in Tensorflow
