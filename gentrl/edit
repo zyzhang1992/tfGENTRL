@@ -1,0 +1,40 @@
+self_num_sources = len(sources)
+
+self_source_smiles = []
+self_source_props = []
+self_source_missings = []
+self_source_probs = []
+
+self_with_missings = with_missings
+
+self_len = 0
+for source_descr in sources:
+    cur_df = pd.read_csv(source_descr['path'])
+    cur_smiles = list(cur_df[source_descr['smiles']].values)
+
+    cur_props = torch.zeros(len(cur_smiles), len(props)).float()
+    cur_missings = torch.zeros(len(cur_smiles), len(props)).long()
+
+    for i, prop in enumerate(props):
+if prop in source_descr:
+    if isinstance(source_descr[prop], str):
+cur_props[:, i] = torch.from_numpy(
+    cur_df[source_descr[prop]].values)
+    else:
+cur_props[:, i] = torch.from_numpy(
+    cur_df[source_descr['smiles']].map(
+source_descr[prop]).values)
+else:
+    cur_missings[:, i] = 1
+
+    self_source_smiles.append(cur_smiles)
+    self_source_props.append(cur_props)
+    self_source_missings.append(cur_missings)
+    self_source_probs.append(source_descr['prob'])
+
+    self_len = max(self.len,
+   int(len(cur_smiles) / source_descr['prob']))
+
+self_source_probs = np.array(self.source_probs).astype(np.float)
+
+self_source_probs /= self.source_probs.sum()
